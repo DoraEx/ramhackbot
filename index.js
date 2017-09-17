@@ -10,5 +10,9 @@ controller.hears(['hello', 'hi', 'hey'],['direct_message', 'direct_message', 'me
 
 var bot = controller.spawn({
     token: process.env.SLACK_TOKEN
-}).startRTM();
+}).startRTM(function(err, bot, payload) {
+    if(err) {
+        console.log(err);
+    }
+});
 
