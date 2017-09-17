@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/DoraEx/ramhackbot#readme",
   "dependencies": {
-    "botkit": "^0.6.0"
+    "botkit": "^0.6.0",
+    "dotenv": "^4.0.0"
   }
 }
