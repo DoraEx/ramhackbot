@@ -99,27 +99,19 @@ controller.hears(['start', 'new', 'create', 'make'],['direct_message'], function
             }
         ], {}, 'confirm_name');
         
-        //GET THE QUESTION
-        convo.addQuestion('What question would you like to ask?',[
-            {
-                pattern: '(.*)',
-                callback: function(response, convo) {
-                    convo.gotoThread('confirm_question');
-                }
-            }
-        ],{}, 'get_question');
-        
         //GET THE QUESTION TYPE
         convo.addQuestion( 'What type of question do you want to ask? Free response or multiple choice?', [
             {
                 pattern: 'free',
                 callback: function (response, convo) {
+                    question_type = "free";
                     convo.gotoThread('get_question');
                 }
             },
             {
                 pattern: 'multi',
                 callback: function (response, convo) {
+                    question_type = "multi";
                     convo.gotoThread('get_question');
                 }
             },
@@ -132,6 +124,57 @@ controller.hears(['start', 'new', 'create', 'make'],['direct_message'], function
                 }
             }
         ], {}, 'get_question_type');
+        
+        //GET THE QUESTION
+        convo.addQuestion('What question would you like to ask?',[
+            {
+                pattern: '(.*)',
+                callback: function (response, convo) {
+                    question = response.text;
+                    convo.say("Got it.");
+                    if(question_type == "free") {
+                        convo.gotoThread("display_survey")
+                    }
+                    convo.gotoThread('get_first_choice');
+                }
+            }
+        ],{}, 'get_question');
+        
+        //GET THE MULTIPLE CHOICES
+        convo.addQuestion('What is the first choice of the answers?',[
+            {
+                pattern: '(.*)',
+                callback: function (response, convo) {
+                    choices.push("repsonse.text");
+                    convo.gotoThread('get_other_choices');
+                }
+            }
+        ], {}, 'get_first_choice');
+        convo.addQuestion('What\'s the next choice?'), [
+            {
+                pattern: 'don',
+                callback: function (response, convo) {
+                    convo.gotoThread();
+                }
+            },
+            {
+                pattern: bot.utterances.no,
+                callback: function (response, convo) {
+                    convo.gotoThread();
+                }
+            },
+            {
+                pattern: '(.*)',
+                callback: function (response, convo) {
+                    convo.repeat();
+                    convo.next();
+                }
+            }
+        ], {}, 'get_other_choices');
+        convo.addQuestion('', [], {}, 'displaySurvey') {
+            
+        }
+        
     //END OF CONVERSATION
     })
 });
