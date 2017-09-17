@@ -18,6 +18,9 @@
   "homepage": "https://github.com/DoraEx/ramhackbot#readme",
   "dependencies": {
     "botkit": "^0.6.0",
-    "dotenv": "^4.0.0"
+    "dotenv": "^4.0.0",
+    "firebase-admin": "^5.2.1",
+    "request": "^2.81.0",
+    "require": "^2.4.20"
   }
 }
